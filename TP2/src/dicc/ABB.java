@@ -8,11 +8,6 @@ public class ABB<K extends Comparable<K>, V> extends AB<K, V>
 	}
 
 	@Override
-	protected Nodo eliminar(Nodo p, K clave) {
-		return null;
-	}
-
-	@Override
 	protected V obtener(Nodo p, K clave) {
 		return null;
 	}
@@ -20,5 +15,10 @@ public class ABB<K extends Comparable<K>, V> extends AB<K, V>
 	@Override
 	protected boolean pertenece(Nodo p, K clave) {
 		return false;
+	}
+
+	@Override
+	protected Nodo eliminar(Nodo p, K clave) {
+		return null;
 	}
 }

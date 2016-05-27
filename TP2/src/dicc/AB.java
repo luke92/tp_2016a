@@ -47,17 +47,6 @@ abstract class AB<K, V> implements Diccionario<K, V>
 	protected abstract Nodo guardar(Nodo padre, Nodo hijo);
 
 	/*
-	 * Borrado.
-	 */
-
-	@Override
-	public void eliminar(K k) {
-		raiz = eliminar(raiz, k);
-	}
-
-	protected abstract Nodo eliminar(Nodo padre, K clave);
-
-	/*
 	 * Búsqueda.
 	 */
 
@@ -74,6 +63,17 @@ abstract class AB<K, V> implements Diccionario<K, V>
 	protected abstract V obtener(Nodo padre, K k);
 
 	protected abstract boolean pertenece(Nodo padre, K k);
+
+	/*
+	 * Borrado.
+	 */
+
+	@Override
+	public void eliminar(K k) {
+		raiz = eliminar(raiz, k);
+	}
+
+	protected abstract Nodo eliminar(Nodo padre, K clave);
 
 	/*
 	 * Tamaño, O(n). ???
