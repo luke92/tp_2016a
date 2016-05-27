@@ -3,7 +3,7 @@ package dicc;
 public class ABB<K extends Comparable<K>, V> extends AB<K, V>
 {
 	@Override
-	protected Nodo guardar(Nodo p, Nodo hijo) {
+	protected Nodo guardar(Nodo p, Nodo nuevo) {
 		return null;
 	}
 
