@@ -9,7 +9,7 @@ package dicc;
  * Implementa algunos métodos genéricos de AB, como tamaño() e
  * inorder().
  */
-abstract class AB<K, V> implements Diccionario<K, V>
+abstract class ArbolBinario<K, V> implements Diccionario<K, V>
 {
 	/*
 	 * Clase Nodo, ya específica de los tipos K y V.

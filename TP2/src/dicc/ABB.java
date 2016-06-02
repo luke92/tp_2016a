@@ -1,6 +1,6 @@
 package dicc;
 
-public class ABB<K extends Comparable<K>, V> extends AB<K, V>
+public class ABB<K extends Comparable<K>, V> extends ArbolBinario<K, V>
 {
 	@Override
 	protected Nodo guardar(Nodo p, Nodo nuevo) {
