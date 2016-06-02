@@ -171,10 +171,6 @@ copiar los archivos de código.
 </ul>
 
 <p>
-Para otros requisitos de la entrega, consultar la sección <a href="#entrega">Requisitos de la entrega</a>.
-</p>
-
-<p>
 A modo informativo, se detallan los objetivos del TP en el <a href="#objetivos">Apéndice A: Resumen de objetivos</a>.
 </p>
 
@@ -182,18 +178,17 @@ A modo informativo, se detallan los objetivos del TP en el <a href="#objetivos">
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline1">Parte 1: Estructuras de datos genéricas</a></li>
-<li><a href="#orgheadline2">Parte 2: Polimorfismo y desacoplamiento</a></li>
-<li><a href="#entrega">Requisitos de la entrega</a></li>
+<li><a href="#parte1">Parte 1: Estructuras de datos genéricas</a></li>
+<li><a href="#parte2">Parte 2: Polimorfismo y desacoplamiento</a></li>
 <li><a href="#objetivos">Apéndice A: Resumen de objetivos</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1">Parte 1: Estructuras de datos genéricas</h2>
-<div class="outline-text-2" id="text-orgheadline1">
+<div id="outline-container-orgheadline9" class="outline-2">
+<h2 id="parte1"><a id="orgheadline9"></a>Parte 1: Estructuras de datos genéricas</h2>
+<div class="outline-text-2" id="text-parte1">
 <p>
 En esta parte se pide la implementación de las siguientes tres clases:
 </p>
@@ -212,27 +207,27 @@ Para ayudar con la implementación, se incluyen algunas clases de soporte.
 
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline3">Clases ya implementadas</a>
+<li><a href="#orgheadline1">Clases ya implementadas</a>
 <ul>
-<li><a href="#diccionario"><i>Diccionario</i></a></li>
-<li><a href="#conjunto"><i>Conjunto</i></a></li>
-<li><a href="#arbol-binario"><i>ArbolBinario</i></a></li>
+<li><a href="#diccionario">La interfaz <i>Diccionario</i></a></li>
+<li><a href="#conjunto">La clase <i>Conjunto</i></a></li>
+<li><a href="#arbol-binario">La clase abstracta <i>ArbolBinario</i></a></li>
 </ul>
 </li>
-<li><a href="#orgheadline4">Clases a implementar</a>
+<li><a href="#orgheadline2">Clases a implementar</a>
 <ul>
 <li><a href="#dicc-conjunto"><i>DiccConjunto</i> y <i>TuplaDic</i></a></li>
 <li><a href="#abb"><i>ABB</i></a></li>
 </ul>
 </li>
-<li><a href="#orgheadline5">Pruebas automáticas</a></li>
+<li><a href="#orgheadline3">Pruebas automáticas</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgheadline3" class="outline-3">
-<h3 id="orgheadline3">Clases ya implementadas</h3>
-<div class="outline-text-3" id="text-orgheadline3">
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1">Clases ya implementadas</h3>
+<div class="outline-text-3" id="text-orgheadline1">
 <p>
 Como base para la implementación, la consigna incluye la definición de las
 siguientes clases e interfaces:
@@ -245,8 +240,8 @@ siguientes clases e interfaces:
 </ul>
 </div>
 
-<div id="outline-container-orgheadline6" class="outline-4">
-<h4 id="diccionario"><a id="orgheadline6"></a><i>Diccionario</i></h4>
+<div id="outline-container-orgheadline4" class="outline-4">
+<h4 id="diccionario"><a id="orgheadline4"></a>La interfaz <i>Diccionario</i></h4>
 <div class="outline-text-4" id="text-diccionario">
 <p>
 La interfaz pública <i>Diccionario</i> define cinco operaciones con dos tipos
@@ -281,8 +276,8 @@ No se permite realizar ningún cambio a esta interfaz.
 </div>
 
 
-<div id="outline-container-orgheadline7" class="outline-4">
-<h4 id="conjunto"><a id="orgheadline7"></a><i>Conjunto</i></h4>
+<div id="outline-container-orgheadline5" class="outline-4">
+<h4 id="conjunto"><a id="orgheadline5"></a>La clase <i>Conjunto</i></h4>
 <div class="outline-text-4" id="text-conjunto">
 <p>
 Se incluye la implementación de un <i>Conjunto</i> genérico con el tipo paramétrico <i>T</i>
@@ -322,8 +317,8 @@ manera intencional, este Conjunto no proporciona el método <i>tamaño()</i>.
 </div>
 
 
-<div id="outline-container-orgheadline8" class="outline-4">
-<h4 id="arbol-binario"><a id="orgheadline8"></a><i>ArbolBinario</i></h4>
+<div id="outline-container-orgheadline6" class="outline-4">
+<h4 id="arbol-binario"><a id="orgheadline6"></a>La clase abstracta <i>ArbolBinario</i></h4>
 <div class="outline-text-4" id="text-arbol-binario">
 <p>
 La clase abstracta <i>ArbolBinario</i> define un árbol binario genérico que delega a
@@ -373,11 +368,11 @@ este.
 </div>
 
 
-<div id="outline-container-orgheadline4" class="outline-3">
-<h3 id="orgheadline4">Clases a implementar</h3>
-<div class="outline-text-3" id="text-orgheadline4">
-</div><div id="outline-container-orgheadline9" class="outline-4">
-<h4 id="dicc-conjunto"><a id="orgheadline9"></a><i>DiccConjunto</i> y <i>TuplaDic</i></h4>
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2">Clases a implementar</h3>
+<div class="outline-text-3" id="text-orgheadline2">
+</div><div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="dicc-conjunto"><a id="orgheadline7"></a><i>DiccConjunto</i> y <i>TuplaDic</i></h4>
 <div class="outline-text-4" id="text-dicc-conjunto">
 <p>
 La clase <i>DiccConjunto</i> debe implementar la interfaz <i><a href="#diccionario">Diccionario</a></i> sobre el TAD
@@ -414,8 +409,8 @@ Archivos a completar:
 </div>
 </div>
 
-<div id="outline-container-orgheadline10" class="outline-4">
-<h4 id="abb"><a id="orgheadline10"></a><i>ABB</i></h4>
+<div id="outline-container-orgheadline8" class="outline-4">
+<h4 id="abb"><a id="orgheadline8"></a><i>ABB</i></h4>
 <div class="outline-text-4" id="text-abb">
 <p>
 La clase <i>ABB</i> implementa un árbol de búsqueda binario heredando de la clase
@@ -513,19 +508,20 @@ ejemplo, para el borrado:
 </div>
 </div>
 
-<div id="outline-container-orgheadline5" class="outline-3">
-<h3 id="orgheadline5">Pruebas automáticas</h3>
-<div class="outline-text-3" id="text-orgheadline5">
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3">Pruebas automáticas</h3>
+<div class="outline-text-3" id="text-orgheadline3">
 <p>
-TODO
+Se incluye, en el paquete <tt>parte1.pruebas</tt>, una serie de pruebas automáticas con
+las que ambas implementaciones de <i>Diccionario</i> deben cumplir.
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline2" class="outline-2">
-<h2 id="orgheadline2">Parte 2: Polimorfismo y desacoplamiento</h2>
-<div class="outline-text-2" id="text-orgheadline2">
+<div id="outline-container-orgheadline13" class="outline-2">
+<h2 id="parte2"><a id="orgheadline13"></a>Parte 2: Polimorfismo y desacoplamiento</h2>
+<div class="outline-text-2" id="text-parte2">
 <p>
 En esta segunda parte se pide la refactorización de una clase haciendo uso de
 polimorfismo como mecanismo para desacoplar componentes.
@@ -589,9 +585,9 @@ implementar uno propio desde cero.
 </p>
 </div>
 
-<div id="outline-container-orgheadline11" class="outline-3">
-<h3 id="orgheadline11">Sugerencia de diseño</h3>
-<div class="outline-text-3" id="text-orgheadline11">
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10">Sugerencia de diseño</h3>
+<div class="outline-text-3" id="text-orgheadline10">
 <p>
 Se sugiere el uso de una clase abstracta <i>FormatWriter</i> y una interfaz <i>Exportable</i>
 tal que el código de <tt>export()</tt> quede como sigue:
@@ -629,9 +625,9 @@ Y la función <tt>main()</tt>:
 </div>
 </div>
 
-<div id="outline-container-orgheadline12" class="outline-4">
-<h4 id="orgheadline12">La interfaz <i>Exportable</i></h4>
-<div class="outline-text-4" id="text-orgheadline12">
+<div id="outline-container-orgheadline11" class="outline-4">
+<h4 id="orgheadline11">La interfaz <i>Exportable</i></h4>
+<div class="outline-text-4" id="text-orgheadline11">
 <p>
 En lugar de dejar que <i>BDExport</i> “averigüe” el tipo de cada objeto a exportar, y
 extraiga sus atributos con un cast, los propios objetos deberían saber
@@ -644,9 +640,15 @@ Esto lo pueden conseguir mediante la interfaz sugerida <i>Exportable:</i>
 
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #859900;">abstract</span> <span style="color: #859900;">class</span> <span style="color: #b58900;">FormatWriter</span>
+<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #859900;">interface</span> <span style="color: #b58900;">Exportable</span>
 {
-    <span style="color: #859900;">public</span> <span style="color: #859900;">abstract</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">guardar</span>(<span style="color: #b58900;">Atributos</span> <span style="color: #268bd2;">attrs</span>);
+    <span style="color: #2aa198;">/**</span>
+<span style="color: #2aa198;">     * Guarda los atributos de la instancia en un diccionario.</span>
+<span style="color: #2aa198;">     *</span>
+<span style="color: #2aa198;">     * En esta versi&#243;n simplificada, los valores siempre son</span>
+<span style="color: #2aa198;">     * strings (ver clase Atributos).</span>
+<span style="color: #2aa198;">     */</span>
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">saveAtributos</span>(<span style="color: #b58900;">Atributos</span> <span style="color: #268bd2;">attrs</span>);
 }
 </pre>
 </div>
@@ -658,28 +660,37 @@ esta interfaz.
 </div>
 </div>
 
-<div id="outline-container-orgheadline13" class="outline-4">
-<h4 id="orgheadline13">La clase <i>FormatWriter</i> y sus subclases</h4>
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12">La clase <i>FormatWriter</i> y sus subclases</h4>
+<div class="outline-text-4" id="text-orgheadline12">
+<p>
+La clase abstracta <i>FormatWriter</i> abstrae el concepto de serializar, en cualquier
+formato, los atributos de un objeto:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #859900;">abstract</span> <span style="color: #859900;">class</span> <span style="color: #b58900;">FormatWriter</span>
+{
+    <span style="color: #859900;">public</span> <span style="color: #859900;">abstract</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">guardar</span>(<span style="color: #b58900;">Atributos</span> <span style="color: #268bd2;">attrs</span>);
+}
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orgheadline14" class="outline-2">
-<h2 id="entrega"><a id="orgheadline14"></a>Requisitos de la entrega</h2>
-<div class="outline-text-2" id="text-entrega">
-</div>
-</div>
 
-
-<div id="outline-container-orgheadline16" class="outline-2">
-<h2 id="objetivos"><a id="orgheadline16"></a>Apéndice A: Resumen de objetivos</h2>
+<div id="outline-container-orgheadline15" class="outline-2">
+<h2 id="objetivos"><a id="orgheadline15"></a>Apéndice A: Resumen de objetivos</h2>
 <div class="outline-text-2" id="text-objetivos">
 </div>
 
-<div id="outline-container-orgheadline15" class="outline-3">
-<h3 id="orgheadline15">Parte 1</h3>
-<div class="outline-text-3" id="text-orgheadline15">
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14">Parte 1</h3>
+<div class="outline-text-3" id="text-orgheadline14">
 <ol class="org-ol">
 <li>El uso de interfaces como definición completa de un tipo abstracto de
 datos.
