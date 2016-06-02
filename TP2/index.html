@@ -527,26 +527,159 @@ TODO
 <h2 id="orgheadline2">Parte 2: Polimorfismo y desacoplamiento</h2>
 <div class="outline-text-2" id="text-orgheadline2">
 <p>
-<i>In progress.</i>
+En esta segunda parte se pide la refactorización de una clase haciendo uso de
+polimorfismo como mecanismo para desacoplar componentes.
+</p>
+
+<p>
+En otras palabras: se tiene una clase con un único método, demasiado largo, que
+se desea descomponer en módulos distintos (clases), cada uno de las cuales se
+encargue de una pequeña parte de la tarea global.
+</p>
+
+<p>
+La clase se llama <tt>BDExport</tt>, y guarda una lista de objetos en un archivo. Se
+proporciona una clase <a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte2/Main.java">Main</a> que muestra su uso:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #859900;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+    BDExport.export(<span style="color: #2aa198;">"clientes.csv"</span>, <span style="color: #268bd2; font-weight: bold;">Formato</span>.CSV, listaClientes());
+    BDExport.export(<span style="color: #2aa198;">"empleados.json"</span>, <span style="color: #268bd2; font-weight: bold;">Formato</span>.JSON, listaEmpleados());
+}
+</pre>
+</div>
+
+<p>
+Y esta es la documentación y la firma del método <tt>export()</tt>, tal y como aparece
+en <a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte2/BDExport.java">BDExport.java</a>:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #2aa198;">/**</span>
+<span style="color: #2aa198;"> * Exporta una serie de objetos de la base de datos a un archivo.</span>
+<span style="color: #2aa198;"> *</span>
+<span style="color: #2aa198;"> * Recibe el nombre del archivo, el formato deseado (CSV o JSON), y</span>
+<span style="color: #2aa198;"> * la lista de objetos (Empeados o Clientes).</span>
+<span style="color: #2aa198;"> */</span>
+<span style="color: #859900;">public</span> <span style="color: #859900;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">export</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">archivo</span>, <span style="color: #b58900;">Formato</span> <span style="color: #268bd2;">formato</span>, <span style="color: #b58900;">List</span>&lt;?&gt; <span style="color: #268bd2;">objetos</span>) {
+    <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">70 l&#237;neas de c&#243;digo ...</span>
+    <span style="color: #586e75; font-style: italic;">//</span>
+    <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Abrir archivo</span>
+    <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Determinar el tipo del objeto (!)</span>
+    <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Extraer los atributos seg&#250;n la clase a exportar (!)</span>
+    <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Exportar a CSV o JSON, con varios switch/if/else combinados (!)</span>
+    <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Capturar excepciones e imprimir a System.err (!)</span>
+}
+</pre>
+</div>
+
+<p>
+A lo que se quiere llegar es a un código más elegante y extensible que permita,
+en el futuro, agregar nuevos formatos y tipos de objetos sin tener que
+reescribirlo entero.
+</p>
+
+<p>
+<b>Nota</b>: el diseño de la la solución es libre, pero a continuación se detalla un
+posible diseño. El alumno puede decidir seguirlo en su totalidad, o en parte, o
+implementar uno propio desde cero.
+</p>
+</div>
+
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11">Sugerencia de diseño</h3>
+<div class="outline-text-3" id="text-orgheadline11">
+<p>
+Se sugiere el uso de una clase abstracta <i>FormatWriter</i> y una interfaz <i>Exportable</i>
+tal que el código de <tt>export()</tt> quede como sigue:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #859900;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">export</span>(<span style="color: #b58900;">FormatWriter</span> <span style="color: #268bd2;">exporter</span>, <span style="color: #b58900;">Iterable</span>&lt;? <span style="color: #859900;">extends</span> <span style="color: #b58900;">Exportable</span>&gt; <span style="color: #268bd2;">objetos</span>) {
+    <span style="color: #b58900;">Atributos</span> <span style="color: #268bd2;">attrs</span> = <span style="color: #859900;">new</span> <span style="color: #b58900;">Atributos</span>();
+    <span style="color: #859900;">for</span> (<span style="color: #b58900;">Exportable</span> <span style="color: #268bd2;">e</span> : objetos) {
+        attrs.clear();
+        e.saveAtributos(attrs);
+        exporter.guardar(attrs);
+    }
+}
+</pre>
+</div>
+
+<p>
+Y la función <tt>main()</tt>:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #859900;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+    <span style="color: #859900;">try</span> (<span style="color: #b58900;">FormatWriter</span> <span style="color: #268bd2;">csv</span> = <span style="color: #859900;">new</span> <span style="color: #b58900;">CSV</span>(<span style="color: #2aa198;">"clientes.csv"</span>);
+         <span style="color: #b58900;">FormatWriter</span> <span style="color: #268bd2;">json</span> = <span style="color: #859900;">new</span> <span style="color: #b58900;">JSON</span>(<span style="color: #2aa198;">"empleados.json"</span>)) {
+        BDExport.export(csv, listaClientes());
+        BDExport.export(json, listaEmpleados());
+    } <span style="color: #859900;">catch</span> (<span style="color: #b58900;">IOException</span> <span style="color: #268bd2;">e</span>) {
+        System.err.println(<span style="color: #2aa198;">"No se pudo realizar la copia de seguridad"</span>);
+    }
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12">La interfaz <i>Exportable</i></h4>
+<div class="outline-text-4" id="text-orgheadline12">
+<p>
+En lugar de dejar que <i>BDExport</i> “averigüe” el tipo de cada objeto a exportar, y
+extraiga sus atributos con un cast, los propios objetos deberían saber
+exportarse a sí mismos.
+</p>
+
+<p>
+Esto lo pueden conseguir mediante la interfaz sugerida <i>Exportable:</i>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #859900;">abstract</span> <span style="color: #859900;">class</span> <span style="color: #b58900;">FormatWriter</span>
+{
+    <span style="color: #859900;">public</span> <span style="color: #859900;">abstract</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">guardar</span>(<span style="color: #b58900;">Atributos</span> <span style="color: #268bd2;">attrs</span>);
+}
+</pre>
+</div>
+
+<p>
+Así, se deberían modificar las clases <a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte2/Cliente.java">Cliente</a> y <a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte2/Empleado.java">Empleado</a> para que implementen
+esta interfaz.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgheadline11" class="outline-2">
-<h2 id="entrega"><a id="orgheadline11"></a>Requisitos de la entrega</h2>
+<div id="outline-container-orgheadline13" class="outline-4">
+<h4 id="orgheadline13">La clase <i>FormatWriter</i> y sus subclases</h4>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline14" class="outline-2">
+<h2 id="entrega"><a id="orgheadline14"></a>Requisitos de la entrega</h2>
 <div class="outline-text-2" id="text-entrega">
 </div>
 </div>
 
 
-<div id="outline-container-orgheadline13" class="outline-2">
-<h2 id="objetivos"><a id="orgheadline13"></a>Apéndice A: Resumen de objetivos</h2>
+<div id="outline-container-orgheadline16" class="outline-2">
+<h2 id="objetivos"><a id="orgheadline16"></a>Apéndice A: Resumen de objetivos</h2>
 <div class="outline-text-2" id="text-objetivos">
 </div>
 
-<div id="outline-container-orgheadline12" class="outline-3">
-<h3 id="orgheadline12">Parte 1</h3>
-<div class="outline-text-3" id="text-orgheadline12">
+<div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15">Parte 1</h3>
+<div class="outline-text-3" id="text-orgheadline15">
 <ol class="org-ol">
 <li>El uso de interfaces como definición completa de un tipo abstracto de
 datos.
