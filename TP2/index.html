@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta  charset="utf-8">
+<meta  name="viewport" content="width=device-width, initial-scale=1">
+<title>TP2: Clases genéricas y polimorfismo</title>
+<meta  name="generator" content="Org-mode">
+<meta  name="author" content="Dato Simó">
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="css/org.css">
+<link rel="stylesheet" type="text/css" href="css/org-solarized.css">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">TP2: Clases genéricas y polimorfismo</h1>
+<p>
+La fecha de entrega de este TP es el <b>16 de junio de 2016</b>. Se puede realizar de
+manera individual, o en grupos de a lo sumo dos personas.
+</p>
+
+<p>
+El TP consta de dos partes, que se entregarán de manera conjunta en un único
+ZIP con el código Java, respetando la estructura del proyecto de Eclipse que se
+proporciona como parte de la consigna.
+</p>
+
+<p>
+El proyecto de Eclipse se puede descargar desde <a href="https://github.com/ungs-prog2/tp_2016a/releases">esta página</a>.
+</p>
+
+<ul class="org-ul">
+<li><p>
+<b>IMPORTANTE</b>: la configuración del proyecto incluye varios lineamientos,
+incluyendo la guía de estilo a seguir.
+</p>
+
+<p>
+Se debe, por tanto, <i>importar</i> el proyecto proporcionado, y no meramente
+copiar los archivos de código.
+</p></li>
+</ul>
+
+<p>
+Para otros requisitos de la entrega, consultar la sección <a href="#entrega">Requisitos de la entrega</a>.
+</p>
+
+<p>
+A modo informativo, se detallan los objetivos del TP en el <a href="#objetivos">Apéndice A: Resumen de objetivos</a>.
+</p>
+
+<div id="table-of-contents">
+<h2>&Iacute;ndice</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline1">Parte 1: Estructuras de datos genéricas</a></li>
+<li><a href="#orgheadline2">Parte 2: Polimorfismo y desacoplamiento</a></li>
+<li><a href="#entrega">Requisitos de la entrega</a></li>
+<li><a href="#objetivos">Apéndice A: Resumen de objetivos</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Parte 1: Estructuras de datos genéricas</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+En esta parte se pide la implementación de las siguientes tres clases:
+</p>
+
+<ol class="org-ol">
+<li><i>DiccConjunto:</i> un diccionario sobre <i>Conjunto</i>.</li>
+
+<li><i>ABB:</i> un árbol de búsqueda sobre la clase abstracta <i>ArbolBinario</i>.</li>
+
+<li><i>TuplaDic:</i> puente entre <i>Conjunto</i> y <i>DiccConjunto</i>.</li>
+</ol>
+
+<p>
+Para ayudar con la implementación, se incluyen algunas clases de soporte.
+</p>
+
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline3">Clases ya implementadas</a>
+<ul>
+<li><a href="#diccionario"><i>Diccionario</i></a></li>
+<li><a href="#conjunto"><i>Conjunto</i></a></li>
+<li><a href="#arbol-binario"><i>ArbolBinario</i></a></li>
+</ul>
+</li>
+<li><a href="#orgheadline4">Clases a implementar</a>
+<ul>
+<li><a href="#dicc-conjunto"><i>DiccConjunto</i> y <i>TuplaDic</i></a></li>
+<li><a href="#abb"><i>ABB</i></a></li>
+</ul>
+</li>
+<li><a href="#orgheadline5">Pruebas automáticas</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3">Clases ya implementadas</h3>
+<div class="outline-text-3" id="text-orgheadline3">
+<p>
+Como base para la implementación, la consigna incluye la definición de las
+siguientes clases e interfaces:
+</p>
+
+<ul class="org-ul">
+<li>interfaz <i>Diccionario</i></li>
+<li>clase <i>Conjunto</i></li>
+<li>clase <i>ArbolBinario</i> (abstracta)</li>
+</ul>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-4">
+<h4 id="diccionario"><a id="orgheadline6"></a><i>Diccionario</i></h4>
+<div class="outline-text-4" id="text-diccionario">
+<p>
+La interfaz pública <i>Diccionario</i> define cinco operaciones con dos tipos
+paramétricos (la clave <i>K</i> y el valor <i>V):</i>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #859900;">interface</span> <span style="color: #b58900;">Diccionario</span>&lt;<span style="color: #b58900;">K</span>, <span style="color: #b58900;">V</span>&gt;
+{
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">guardar</span>(<span style="color: #b58900;">K</span> <span style="color: #268bd2;">clave</span>, <span style="color: #b58900;">V</span> <span style="color: #268bd2;">valor</span>);
+
+    <span style="color: #b58900;">V</span> <span style="color: #268bd2;">obtener</span>(<span style="color: #b58900;">K</span> <span style="color: #268bd2;">clave</span>);
+
+    <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">pertenece</span>(<span style="color: #b58900;">K</span> <span style="color: #268bd2;">clave</span>);
+
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">eliminar</span>(<span style="color: #b58900;">K</span> <span style="color: #268bd2;">clave</span>);
+
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">tama&#241;o</span>();
+}
+</pre>
+</div>
+
+<p>
+La documentación de cada método se incluye en el archivo <a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte1/Diccionario.java">Diccionario.java</a>.
+</p>
+
+<p>
+No se permite realizar ningún cambio a esta interfaz.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="conjunto"><a id="orgheadline7"></a><i>Conjunto</i></h4>
+<div class="outline-text-4" id="text-conjunto">
+<p>
+Se incluye la implementación de un <i>Conjunto</i> genérico con el tipo paramétrico <i>T</i>
+(el tipo del elemento):
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">class</span> <span style="color: #b58900;">Conjunto</span>&lt;<span style="color: #b58900;">T</span> <span style="color: #859900;">extends</span> <span style="color: #b58900;">Comparable</span>&lt;<span style="color: #b58900;">T</span>&gt;&gt;
+{
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">agregar</span>(<span style="color: #b58900;">T</span> <span style="color: #268bd2;">elem</span>) { ... }
+
+    <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">pertenece</span>(<span style="color: #b58900;">T</span> <span style="color: #268bd2;">elem</span>) { ... }
+
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">quitar</span>(<span style="color: #b58900;">T</span> <span style="color: #268bd2;">elem</span>) { ... }
+
+    <span style="color: #b58900;">T</span> <span style="color: #268bd2;">recuperar</span>(<span style="color: #b58900;">T</span> <span style="color: #268bd2;">elem</span>) { ... }
+}
+</pre>
+</div>
+
+<p>
+De la definición de la clase se deduce que los elementos del conjunto deben ser
+<b>comparables entre sí</b>.
+</p>
+
+<p>
+La documentación de cada método se incluye en el archivo <a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte1/Conjunto.java">Conjunto.java</a>.
+</p>
+
+<p>
+Se proporciona la implementación completa de la clase. No se pueden realizar
+alteraciones, ni agregar métodos adicionales. En particular, nótese que, de
+manera intencional, este Conjunto no proporciona el método <i>tamaño()</i>.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline8" class="outline-4">
+<h4 id="arbol-binario"><a id="orgheadline8"></a><i>ArbolBinario</i></h4>
+<div class="outline-text-4" id="text-arbol-binario">
+<p>
+La clase abstracta <i>ArbolBinario</i> define un árbol binario genérico que delega a
+las clases hijas (concretas) las operaciones de inserción, búsqueda y borrado.
+</p>
+
+<p>
+La delegación se realiza mediante sobrecarga. Por ejemplo, para la búsqueda:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">abstract</span> <span style="color: #859900;">class</span> <span style="color: #b58900;">ArbolBinario</span>&lt;<span style="color: #b58900;">K</span>, <span style="color: #b58900;">V</span>&gt; <span style="color: #859900;">implements</span> <span style="color: #b58900;">Diccionario</span>&lt;<span style="color: #b58900;">K</span>, <span style="color: #b58900;">V</span>&gt;
+{
+    <span style="color: #859900;">private</span> <span style="color: #b58900;">Nodo</span> <span style="color: #268bd2;">raiz</span>;
+
+    <span style="color: #586e75; font-style: italic;">//</span>
+    <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">M&#233;todos implementados por ArbolBinarioB.</span>
+    <span style="color: #586e75; font-style: italic;">//</span>
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #859900;">public</span> <span style="color: #b58900;">V</span> <span style="color: #268bd2;">obtener</span>(<span style="color: #b58900;">K</span> <span style="color: #268bd2;">k</span>) {
+        <span style="color: #859900;">return</span> obtener(raiz, k);
+    }
+
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #859900;">public</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">pertenece</span>(<span style="color: #b58900;">K</span> <span style="color: #268bd2;">k</span>) {
+        <span style="color: #859900;">return</span> pertenece(raiz, k);
+    }
+
+    <span style="color: #586e75; font-style: italic;">//</span>
+    <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">M&#233;todos sobrecargados que implementar&#225;n las clases hijas.</span>
+    <span style="color: #586e75; font-style: italic;">//</span>
+    <span style="color: #859900;">protected</span> <span style="color: #859900;">abstract</span> <span style="color: #b58900;">V</span> <span style="color: #268bd2;">obtener</span>(<span style="color: #b58900;">Nodo</span> <span style="color: #268bd2;">padre</span>, <span style="color: #b58900;">K</span> <span style="color: #268bd2;">k</span>);
+
+    <span style="color: #859900;">protected</span> <span style="color: #859900;">abstract</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">pertenece</span>(<span style="color: #b58900;">Nodo</span> <span style="color: #268bd2;">padre</span>, <span style="color: #b58900;">K</span> <span style="color: #268bd2;">k</span>);
+}
+</pre>
+</div>
+
+<p>
+Como se puede observar también, la clase <i>ArbolBinario</i> implementa directamente
+la interfaz <i>Diccionario</i>, por lo que tiene los mismos dos tipos paramétricos que
+este.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4">Clases a implementar</h3>
+<div class="outline-text-3" id="text-orgheadline4">
+</div><div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="dicc-conjunto"><a id="orgheadline9"></a><i>DiccConjunto</i> y <i>TuplaDic</i></h4>
+<div class="outline-text-4" id="text-dicc-conjunto">
+<p>
+La clase <i>DiccConjunto</i> debe implementar la interfaz <i><a href="#diccionario">Diccionario</a></i> sobre el TAD
+<i>Conjunto</i>.
+</p>
+
+<p>
+Como el número de tipos paramétricos difiere entre estas dos clases, será
+necesario usar un TAD intermedio que actúe como puente entre <i>Conjunto&lt;T&gt;</i> y
+<i>DiccConjunto&lt;K, V&gt;</i>.
+</p>
+
+<p>
+Se recomienda usar <i>TuplaDic&lt;K, V&gt;</i> como TAD intermedio. Es una tupla de dos
+elementos en la que la comparación se realiza solamente por el primero de ellos
+(en este caso la clave).
+</p>
+
+<p>
+Importante: para que funcione, el <i>compareTo()</i> de la tupla debe ser consistente
+con <i>equals()</i>.
+</p>
+
+<p>
+Archivos a completar:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte1/TuplaDic.java">TuplaDic.java</a>: implementar <tt>toString()</tt>, <tt>equals()</tt> y <tt>compareTo()</tt>.</li>
+
+<li><a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte1/DiccConjunto.java">DiccConjunto.java</a>: implementar <tt>guardar()</tt>, <tt>obtener()</tt>, <tt>pertenece()</tt> <tt>tamaño()</tt> y
+<tt>eliminar()</tt>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline10" class="outline-4">
+<h4 id="abb"><a id="orgheadline10"></a><i>ABB</i></h4>
+<div class="outline-text-4" id="text-abb">
+<p>
+La clase <i>ABB</i> implementa un árbol de búsqueda binario heredando de la clase
+abstracta <i>ArbolBinario</i>. Esto significa que:
+</p>
+
+<ul class="org-ul">
+<li><i>ABB</i> solo necesita implementar los cuatro métodos “abstract” de
+<i>ArbolBinario:</i> <tt>guardar()</tt>, <tt>obtener()</tt>, <tt>pertenece()</tt> y <tt>eliminar()</tt>.</li>
+
+<li>como <i>ArbolBinario</i> ya implementa la interfaz <i>Diccionario</i>, no se necesita
+código especial para que <i>ABB</i> la implemente.</li>
+
+<li>los métodos que funcionarían para cualquier árbole binario (no solo de
+búsqueda) se pueden implementar en la clase base. Por ejemplo, <i>ArbolBinario</i>
+ya implementa <tt>tamaño()</tt>, y no es necesario sobreescribirlo.</li>
+</ul>
+
+<p>
+A su vez, en este caso la clase base acota bastante cómo debe ser la
+implementación de la clase hija. En particular:
+</p>
+
+<ul class="org-ul">
+<li>el diseño de la recursión lo define <i>ArbolBinario:</i> en lugar de usar métodos
+en <i>Nodo</i>, llama a métodos sobrecargados de la clase hija con la raíz como
+argumento (como se mostró en la <a href="#arbol-binario">sección anterior</a>).</li>
+
+<li>las clases hijas pueden acceder a los campos de <i>Nodo</i>, pero no tienen acceso
+a “re-escribir” la raíz del árbol (<tt>ArbolBinario.raiz</tt> es <i>private</i>).</li>
+
+<li><p>
+lo que espera la clase base es que los métodos sobrecargados <i>devuelvan</i> la
+nueva raíz, que será la original de no haberse producido cambios. Por
+ejemplo, para el borrado:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">abstract</span> <span style="color: #859900;">class</span> <span style="color: #b58900;">ArbolBinario</span>&lt;<span style="color: #b58900;">K</span>, <span style="color: #b58900;">V</span>&gt;
+{
+    <span style="color: #859900;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">guardar</span>(<span style="color: #b58900;">K</span> <span style="color: #268bd2;">clave</span>, <span style="color: #b58900;">V</span> <span style="color: #268bd2;">valor</span>) {
+        <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Se sobreescribe la ra&#237;z con lo que devuelva la clase hija.</span>
+        <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Si, por ejemplo, el &#225;rbol estaba vac&#237;o, la clase hija devuelve</span>
+        <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">directamente el nodo nuevo.</span>
+        raiz = guardar(raiz, <span style="color: #859900;">new</span> <span style="color: #b58900;">Nodo</span>(clave, valor));
+    }
+
+    <span style="color: #859900;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">eliminar</span>(<span style="color: #b58900;">K</span> <span style="color: #268bd2;">clave</span>) {
+        <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Se sobreescribe la ra&#237;z con lo que devuelva la clase hija.</span>
+        <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Si, por ejemplo, solo existe la ra&#237;z y hay que borrarla, la</span>
+        <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">clase hija devolver&#237;a "null".</span>
+        raiz = eliminar(raiz, clave);
+    }
+}
+
+<span style="color: #859900;">public</span> <span style="color: #859900;">class</span> <span style="color: #b58900;">ABB</span>&lt;<span style="color: #b58900;">K</span>, <span style="color: #b58900;">V</span>&gt; <span style="color: #859900;">extends</span> <span style="color: #b58900;">ArbolBinario</span>&lt;<span style="color: #b58900;">K</span>, <span style="color: #b58900;">V</span>&gt;
+{
+    <span style="color: #859900;">protected</span> <span style="color: #b58900;">Nodo</span> <span style="color: #268bd2;">guardar</span>(<span style="color: #b58900;">Nodo</span> <span style="color: #268bd2;">p</span>, <span style="color: #b58900;">Nodo</span> <span style="color: #268bd2;">nuevo</span>) {
+        <span style="color: #859900;">if</span> (p == <span style="color: #268bd2; font-weight: bold;">null</span>) {
+            <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">La ra&#237;z es null o hemos llegado a una hoja.</span>
+            <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">En este punto se inserta el nodo, devolvi&#233;ndolo.</span>
+            <span style="color: #859900;">return</span> nuevo;
+        }
+
+        <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Seguir buscando</span>
+        <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">...</span>
+    }
+
+    <span style="color: #859900;">protected</span> <span style="color: #b58900;">Nodo</span> <span style="color: #268bd2;">eliminar</span>(<span style="color: #b58900;">Nodo</span> <span style="color: #268bd2;">p</span>, <span style="color: #b58900;">K</span> <span style="color: #268bd2;">clave</span>) {
+        <span style="color: #859900;">if</span> (p == <span style="color: #268bd2; font-weight: bold;">null</span>) {
+            <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">La ra&#237;z es null o hemos llegado a una hoja.</span>
+            <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">No hay nada que borrar y se devuelve null.</span>
+            <span style="color: #859900;">return</span> <span style="color: #268bd2; font-weight: bold;">null</span>;
+        }
+        <span style="color: #859900;">else</span> <span style="color: #859900;">if</span> (<span style="color: #586e75; font-style: italic;">/* </span><span style="color: #586e75;">p.clave == clave */</span>) {
+
+            <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Si solo hay un hijo, devolver ese hijo.</span>
+            <span style="color: #859900;">if</span> (p.izq == <span style="color: #268bd2; font-weight: bold;">null</span>)
+                <span style="color: #859900;">return</span> p.der;
+            <span style="color: #859900;">else</span> <span style="color: #859900;">if</span> (p.der == <span style="color: #268bd2; font-weight: bold;">null</span>)
+                <span style="color: #859900;">return</span> p.izq;
+
+            <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Caso dif&#237;cil: el nodo tiene dos hijos.</span>
+            <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">...</span>
+        }
+        <span style="color: #859900;">else</span>
+            <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">Seguir buscando</span>
+            <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75;">...</span>
+}
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5">Pruebas automáticas</h3>
+<div class="outline-text-3" id="text-orgheadline5">
+<p>
+TODO
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Parte 2: Polimorfismo y desacoplamiento</h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+<i>In progress.</i>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline11" class="outline-2">
+<h2 id="entrega"><a id="orgheadline11"></a>Requisitos de la entrega</h2>
+<div class="outline-text-2" id="text-entrega">
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline13" class="outline-2">
+<h2 id="objetivos"><a id="orgheadline13"></a>Apéndice A: Resumen de objetivos</h2>
+<div class="outline-text-2" id="text-objetivos">
+</div>
+
+<div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12">Parte 1</h3>
+<div class="outline-text-3" id="text-orgheadline12">
+<ol class="org-ol">
+<li>El uso de interfaces como definición completa de un tipo abstracto de
+datos.
+
+<ul class="org-ul">
+<li>En nuestro caso, el TAD-interfaz <a href="#diccionario">Diccionario</a>.</li>
+</ul></li>
+
+<li>La implementación de un mismo TAD-interfaz por dos clases no relacionadas
+por herencia.
+
+<ul class="org-ul">
+<li>En nuestro caso, las clases <a href="#abb">ABB</a> y <a href="#dicc-conjunto">DiccConjunto</a>.</li>
+</ul></li>
+
+<li>La implementación de un TAD sobre otro TAD, resolviendo cualquier
+impedancia entre ellos.
+
+<ul class="org-ul">
+<li>En nuestro caso, <i>DiccConjunto&lt;K, V&gt;</i> sobre <a href="#conjunto">Conjunto&lt;T&gt;</a>, con la ayuda de
+<a href="#dicc-conjunto">TuplaDic</a>.</li>
+</ul></li>
+
+<li>El uso de clases abstractas para diseñar las clases hijas.
+
+<ul class="org-ul">
+<li>En nuestro caso, la clase <i>ArbolBinario</i> define la clase <i>Nodo</i> y mantiene
+controlado (privado) el acceso a la raíz. Acota a cuatro métodos lo que
+las clases derivadas deben implementar.</li>
+</ul></li>
+
+<li>El uso de clases internas para evitar parametrizar clases auxiliares, y el
+uso de visibilidad “default” para evitar la proliferación de getters y setters.
+
+<ul class="org-ul">
+<li>En nuestro caso, no es necesario que la clase interna <i>ArbolBinario.Nodo</i>
+sea paramétrica, pues queda instanciada con <i>K</i> y <i>V</i>. Además, al ser
+<i>protected</i> pero tener sus variables visibilidad default, <i>clave</i> y <i>valor</i> no
+quedan expuestos a otras clases, pero no son necesario getters/setters.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
