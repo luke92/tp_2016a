@@ -1,8 +1,7 @@
 package dicc;
 
-import java.util.NavigableSet;
-import java.util.Objects;
-import java.util.TreeSet;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Clase Conjunto proporcionada por la cátedra.
@@ -11,27 +10,24 @@ import java.util.TreeSet;
  *
  * NO se pueden realizar cambios en esta clase.
  */
-final class Conjunto<T extends Comparable<? super T>>
+final class Conjunto<T>
 {
-	private NavigableSet<T> elementos;
+	private SortedMap<T, T> elementos;
 
 	Conjunto() {
-		elementos = new TreeSet<>();
+		elementos = new TreeMap<>();
 	}
 
 	void agregar(T elem) {
-		elementos.add(elem);
+		elementos.put(elem, elem);
 	}
 
 	T recuperar(T elem) {
-		T found = elementos.ceiling(elem);
-		if (Objects.equals(found, elem))
-			return found;
-		return null;
+		return elementos.get(elem);
 	}
 
 	boolean pertenece(T elem) {
-		return elementos.contains(elem);
+		return elementos.containsKey(elem);
 	}
 
 	void quitar(T elem) {
