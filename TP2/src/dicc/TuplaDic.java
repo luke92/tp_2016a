@@ -1,11 +1,30 @@
 package dicc;
 
-class TuplaDic<T1 extends Comparable<T1>, T2> implements Comparable<TuplaDic<T1, T2>>
+public class TuplaDic<T1 extends Comparable<T1>, T2> implements Comparable<TuplaDic<T1, T2>>
 {
-	TuplaDic(T1 x, T2 y) {
-		this.x = x;
-		this.y = y;
+	private final T1 e1;
+	private T2 e2;
+
+	TuplaDic(T1 a, T2 b) {
+		e1 = a;
+		e2 = b;
 	}
+
+	public T1 getE1() {
+		return e1;
+	}
+
+	public T2 getE2() {
+		return e2;
+	}
+
+	public void setE2(T2 v) {
+		e2 = v;
+	}
+
+	/*
+	 * IMPLEMENTAR LOS SIGUIENTES MÉTODOS.
+	 */
 
 	@Override
 	public String toString() {
@@ -21,10 +40,4 @@ class TuplaDic<T1 extends Comparable<T1>, T2> implements Comparable<TuplaDic<T1,
 	public int compareTo(TuplaDic<T1, T2> tupla) {
 		return 0;
 	}
-
-	// Las variables de instancia tienen visibilidad interna,
-	// por lo tanto no hace falta implementar getter/setters.
-
-	final T1 x;  // No se puede modificar una vez creada la tupla.
-	T2 y;        // El segundo (el valor) sí puede ser modificado.
 }
