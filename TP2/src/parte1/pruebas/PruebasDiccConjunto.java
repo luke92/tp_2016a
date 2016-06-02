@@ -1,7 +1,7 @@
-package dicc.pruebas;
+package parte1.pruebas;
 
-import dicc.DiccConjunto;
-import dicc.Diccionario;
+import parte1.DiccConjunto;
+import parte1.Diccionario;
 
 public class PruebasDiccConjunto extends PruebasBase
 {

@@ -1,4 +1,4 @@
-package dicc;
+package parte1;
 
 /**
  * Tupla inmutable de dos elementos, para uso con DiccConjunto.

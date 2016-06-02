@@ -1,4 +1,4 @@
-package dicc;
+package parte1;
 
 /**
  * Interfaz de diccionario pública que se implementa en este

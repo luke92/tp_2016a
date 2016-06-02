@@ -1,4 +1,4 @@
-package dicc;
+package parte1;
 
 /**
  * Clase base para árboles binarios.

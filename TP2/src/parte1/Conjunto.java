@@ -1,4 +1,4 @@
-package dicc;
+package parte1;
 
 import java.util.SortedMap;
 import java.util.TreeMap;

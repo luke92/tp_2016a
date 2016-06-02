@@ -1,4 +1,4 @@
-package dicc;
+package parte1;
 
 public class ABB<K extends Comparable<K>, V> extends ArbolBinario<K, V>
 {

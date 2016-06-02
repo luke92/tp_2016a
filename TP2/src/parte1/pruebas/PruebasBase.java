@@ -1,11 +1,11 @@
-package dicc.pruebas;
+package parte1.pruebas;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import dicc.Diccionario;
+import parte1.Diccionario;
 
 public abstract class PruebasBase
 {

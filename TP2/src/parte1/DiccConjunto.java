@@ -1,4 +1,4 @@
-package dicc;
+package parte1;
 
 public class DiccConjunto<K extends Comparable<K>, V> implements Diccionario<K, V>
 {
