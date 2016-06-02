@@ -14,13 +14,14 @@ abstract class ArbolBinario<K, V> implements Diccionario<K, V>
 	/*
 	 * Clase Nodo, ya específica de los tipos K y V.
 	 *
-	 * Tiene visibilidad "default" para que ABB pueda acceder a
-	 * los miembros del Nodo sin necesidad de getters.
+	 * Sus variables tiene visibilidad "default" para que ABB
+	 * pueda acceder a los miembros del Nodo sin necesidad de
+	 * getters.
 	 *
 	 * La clave es "final" pues no debería ser cambiada una vez
 	 * creado el nodo.
 	 */
-	class Nodo
+	protected class Nodo
 	{
 		K clave;
 		V valor;
