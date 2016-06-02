@@ -1,9 +1,14 @@
 package dicc;
 
+/**
+ * Tupla inmutable de dos elementos, para uso con DiccConjunto.
+ *
+ * equals() y compareTo() solo se fijan en el primer elemento.
+ */
 public class TuplaDic<T1 extends Comparable<T1>, T2> implements Comparable<TuplaDic<T1, T2>>
 {
 	private final T1 e1;
-	private T2 e2;
+	private final T2 e2;
 
 	TuplaDic(T1 a, T2 b) {
 		e1 = a;
@@ -16,10 +21,6 @@ public class TuplaDic<T1 extends Comparable<T1>, T2> implements Comparable<Tupla
 
 	public T2 getE2() {
 		return e2;
-	}
-
-	public void setE2(T2 v) {
-		e2 = v;
 	}
 
 	/*
