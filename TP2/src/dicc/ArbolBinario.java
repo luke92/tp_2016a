@@ -77,9 +77,10 @@ abstract class ArbolBinario<K, V> implements Diccionario<K, V>
 	protected abstract Nodo eliminar(Nodo padre, K clave);
 
 	/*
-	 * Tamaño, O(n). ???
+	 * Tamaño, de momento O(n).
 	 */
 
+	@Override
 	public int tamaño() {
 		return tamaño(raiz);
 	}

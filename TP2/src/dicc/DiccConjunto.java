@@ -25,4 +25,9 @@ public class DiccConjunto<K extends Comparable<K>, V> implements Diccionario<K, 
 	@Override
 	public void eliminar(K clave) {
 	}
+
+	@Override
+	public int tamaño() {
+		return -1;
+	}
 }

@@ -39,4 +39,10 @@ public interface Diccionario<K, V>
 	 * clave no existe.
 	 */
 	void eliminar(K clave);
+
+	/**
+	 * Devuelve el número de elementos actualmente almacenados en
+	 * el diccionario.
+	 */
+	int tamaño();
 }
