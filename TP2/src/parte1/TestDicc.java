@@ -1,19 +1,17 @@
-package parte1.pruebas;
+package parte1;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import parte1.Diccionario;
-
-public abstract class PruebasBase
+public class TestDicc
 {
 	private Diccionario<String, Object> dicc;
 
 	@Before
 	public void setUp() {
-		dicc = crearDiccionario();
+		dicc = new DiccConjunto<>();
 	}
 
 	@Test
@@ -35,10 +33,4 @@ public abstract class PruebasBase
 	@Test
 	public void insertarMuchos() {
 	}
-
-	/**
-	 * Devuelve un Diccionario a probar. Las clases de tests hijas
-	 * deciden qué implementación usar.
-	 */
-	protected abstract Diccionario<String, Object> crearDiccionario();
 }
