@@ -180,6 +180,13 @@ En otras palabras: se tiene una clase con un único método, demasiado largo, qu
 se desea descomponer en módulos distintos (clases), cada uno de las cuales se
 encargue de una pequeña parte de la tarea global.
 
+*Importante*: los cambios a realizar son simplemente de reorganización de código.
+Tras los cambios, el comportamiento del programa debe seguir siendo el mismo.
+Por ejemplo, los archivos /clientes.csv/ y /empleados.json/ que resultan de
+ejecutar =main()= deben resultar idénticos tras los cambios.
+
+** La clase /BDExport/
+
 La clase a restructurar se llama =BDExport=, y se ocupa de exportar una lista de
 objetos a un archivo, en un determinado formato. Se proporciona una clase [[src:parte2/Main.java][Main]]
 que muestra su uso:

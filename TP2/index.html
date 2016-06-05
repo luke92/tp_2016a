@@ -359,8 +359,8 @@ modificar el valor de <i>numElementos</i>.
 </div>
 </div>
 
-<div id="outline-container-orgheadline9" class="outline-2">
-<h2 id="parte2"><a id="orgheadline9"></a>Parte 2: Polimorfismo y desacoplamiento</h2>
+<div id="outline-container-orgheadline10" class="outline-2">
+<h2 id="parte2"><a id="orgheadline10"></a>Parte 2: Polimorfismo y desacoplamiento</h2>
 <div class="outline-text-2" id="text-parte2">
 <p>
 En esta segunda parte se pide la refactorización de una clase haciendo uso de
@@ -373,6 +373,17 @@ se desea descomponer en módulos distintos (clases), cada uno de las cuales se
 encargue de una pequeña parte de la tarea global.
 </p>
 
+<p>
+<b>Importante</b>: los cambios a realizar son simplemente de reorganización de código.
+Tras los cambios, el comportamiento del programa debe seguir siendo el mismo.
+Por ejemplo, los archivos <i>clientes.csv</i> y <i>empleados.json</i> que resultan de
+ejecutar <tt>main()</tt> deben resultar idénticos tras los cambios.
+</p>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6">La clase <i>BDExport</i></h3>
+<div class="outline-text-3" id="text-orgheadline6">
 <p>
 La clase a restructurar se llama <tt>BDExport</tt>, y se ocupa de exportar una lista de
 objetos a un archivo, en un determinado formato. Se proporciona una clase <a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte2/Main.java">Main</a>
@@ -429,11 +440,12 @@ modificar su código.
 Ver <a href="https://github.com/ungs-prog2/tp_2016a/tree/gh-pages/TP2/src/parte2/BDExport.java">BDExport.java</a>.
 </p>
 </div>
+</div>
 
 
-<div id="outline-container-orgheadline6" class="outline-3">
-<h3 id="orgheadline6">Sugerencia de diseño</h3>
-<div class="outline-text-3" id="text-orgheadline6">
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7">Sugerencia de diseño</h3>
+<div class="outline-text-3" id="text-orgheadline7">
 <p>
 El diseño de la la solución es libre, pero a continuación se detalla un posible
 diseño. El alumno puede decidir seguirlo en su totalidad, o en parte; o
@@ -480,9 +492,9 @@ Y la nueva función <tt>main()</tt>:
 </div>
 </div>
 
-<div id="outline-container-orgheadline7" class="outline-4">
-<h4 id="orgheadline7">La interfaz <i>Exportable</i></h4>
-<div class="outline-text-4" id="text-orgheadline7">
+<div id="outline-container-orgheadline8" class="outline-4">
+<h4 id="orgheadline8">La interfaz <i>Exportable</i></h4>
+<div class="outline-text-4" id="text-orgheadline8">
 <p>
 En lugar de dejar que <i>BDExport</i> “averigüe” el tipo de cada objeto a exportar, y
 extraiga sus atributos con un cast, los propios objetos deberían saber
@@ -515,9 +527,9 @@ esta interfaz.
 </div>
 </div>
 
-<div id="outline-container-orgheadline8" class="outline-4">
-<h4 id="orgheadline8">La clase <i>Exportador</i> y sus subclases</h4>
-<div class="outline-text-4" id="text-orgheadline8">
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9">La clase <i>Exportador</i> y sus subclases</h4>
+<div class="outline-text-4" id="text-orgheadline9">
 <p>
 La clase abstracta <i>Exportador</i> abstrae el concepto de serializar, en cualquier
 formato, los atributos de un objeto:
