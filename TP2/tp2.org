@@ -44,7 +44,7 @@ Como parte de la consigna *se proporciona*:
 
 Y *se pide*:
 
-  - la implementación de la clases [[#dicc-conjunto][/DiccConjunto/ y /TuplaDic/]].
+  - la implementación de las clases [[#dicc-conjunto][/DiccConjunto/ y /TuplaDic/]].
 
 Se incluye también una [[#guia1][guía de implementación]].
 
