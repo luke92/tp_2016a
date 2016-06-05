@@ -20,7 +20,7 @@ public class BDExport
 	 * Exporta una serie de objetos de la base de datos a un archivo.
 	 *
 	 * Recibe el nombre del archivo, el formato deseado (CSV o JSON), y
-	 * la lista de objetos (Empeados o Clientes).
+	 * la lista de objetos (Empleados o Clientes).
 	 *
 	 * ESTE ES EL MÉTODO QUE SE DEBE REFACTORIZAR SIGUIENDO LAS
 	 * INSTRUCCIONES DE LA CONSIGNA.

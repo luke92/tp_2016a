@@ -37,12 +37,12 @@ El proyecto de Eclipse se puede descargar desde [[gh:/releases][esta página]].
 En esta parte se pide implementar un diccionario conforme a una
 interfaz pre-determinada, empleando un TAD Conjunto como soporte.
 
-Como parte de la consigna se incluye:
+Como parte de la consigna *se proporciona*:
 
   - la definición de la [[#diccionario][interfaz /Diccionario/]].
   - la implementación de la [[#conjunto][clase /Conjunto/]].
 
-Y se pide:
+Y *se pide*:
 
   - la implementación de la clases [[#dicc-conjunto][/DiccConjunto/ y /TuplaDic/]].
 
@@ -88,13 +88,13 @@ Se incluye la implementación de un /Conjunto/ genérico con el tipo paramétric
 #+BEGIN_SRC java
 class Conjunto<T extends Comparable<T>>
 {
-    void agregar(T elem) { ... }
+    void agregar(T elem)       { /* ya implementado */ }
 
-    boolean pertenece(T elem) { ... }
+    boolean pertenece(T elem)  { /* ya implementado */ }
 
-    void quitar(T elem) { ... }
+    void quitar(T elem)        { /* ya implementado */ }
 
-    T recuperar(T elem) { ... }
+    T recuperar(T elem)        { /* ya implementado */ }
 }
 #+END_SRC
 
@@ -180,30 +180,37 @@ En otras palabras: se tiene una clase con un único método, demasiado largo, qu
 se desea descomponer en módulos distintos (clases), cada uno de las cuales se
 encargue de una pequeña parte de la tarea global.
 
-La clase se llama =BDExport=, y guarda una lista de objetos en un archivo. Se
-proporciona una clase [[src:parte2/Main.java][Main]] que muestra su uso:
+La clase a restructurar se llama =BDExport=, y se ocupa de exportar una lista de
+objetos a un archivo, en un determinado formato. Se proporciona una clase [[src:parte2/Main.java][Main]]
+que muestra su uso:
 
 #+BEGIN_SRC java
 public static void main(String[] args) {
-    BDExport.export("clientes.csv", Formato.CSV, listaClientes());
-    BDExport.export("empleados.json", Formato.JSON, listaEmpleados());
+    // Exportar una lista de clientes a CSV.
+    BDExport.export("clientes.csv",
+                    Formato.CSV, listaClientes());
+
+    // Exportar una lista de empleados a JSON.
+    BDExport.export("empleados.json",
+                    Formato.JSON, listaEmpleados());
 }
 #+END_SRC
 
-Y esta es la documentación y la firma del método =export()=, tal y como aparece
-en [[src:parte2/BDExport.java][BDExport.java]]:
+Esta es la documentación y la firma del método =export()= ya implementado:
 
 #+BEGIN_SRC java
 /**
  ,* Exporta una serie de objetos de la base de datos a un archivo.
  ,*
- ,* Recibe el nombre del archivo, el formato deseado (CSV o JSON), y
- ,* la lista de objetos (Empeados o Clientes).
+ ,* Recibe el nombre del archivo, el formato deseado (CSV o JSON),
+ ,* y la lista de objetos (empleados o clientes).
  ,*/
-public static void export(String archivo, Formato formato, List<?> objetos) {
-    // 70 líneas de código ...
+public static void export(
+        String archivo, Formato formato, List<?> objetos)
+{
+    // 70 líneas de código para...:
     //
-    // Abrir archivo
+    // Abrir el archivo
     // Determinar el tipo del objeto (!)
     // Extraer los atributos según la clase a exportar (!)
     // Exportar a CSV o JSON, con varios switch/if/else combinados (!)
@@ -212,35 +219,41 @@ public static void export(String archivo, Formato formato, List<?> objetos) {
 #+END_SRC
 
 A lo que se quiere llegar es a un código más elegante y extensible que permita,
-en el futuro, agregar nuevos formatos y tipos de objetos sin tener que
-reescribirlo entero.
+en el futuro, (a) agregar nuevos formatos y (b) tipos de objetos sin tener que
+modificar su código.
 
-*Nota*: el diseño de la la solución es libre, pero a continuación se detalla un
-posible diseño. El alumno puede decidir seguirlo en su totalidad, o en parte, o
-implementar uno propio desde cero.
+Ver [[src:parte2/BDExport.java][BDExport.java]].
+
 
 ** Sugerencia de diseño
 
-Se sugiere el uso de una clase abstracta /FormatWriter/ y una interfaz /Exportable/
-tal que el código de =export()= quede como sigue:
+El diseño de la la solución es libre, pero a continuación se detalla un posible
+diseño. El alumno puede decidir seguirlo en su totalidad, o en parte; o
+implementar un diseño propio desde cero.
+
+En términos generales, Se sugiere el uso de una clase abstracta /Exportador/ (o
+cualquier otro nombre) y una interfaz /Exportable/ (ídem) tal que el código de
+=export()= quede como sigue:
 
 #+BEGIN_SRC java
-public static void export(FormatWriter exporter, Iterable<? extends Exportable> objetos) {
-    Atributos attrs = new Atributos();
+public static void export(Exportador exporter,
+                          Iterable<? extends Exportable> objetos)
+{
     for (Exportable e : objetos) {
-        attrs.clear();
-        e.saveAtributos(attrs);
-        exporter.guardar(attrs);
+        Atributos attrs = e.extraerAttributos();
+        exporter.guardarCampos(attrs);
     }
 }
 #+END_SRC
 
-Y la función =main()=:
+Y la nueva función =main()=:
 
 #+BEGIN_SRC java
-public static void main(String[] args) {
-    try (FormatWriter csv = new CSV("clientes.csv");
-         FormatWriter json = new JSON("empleados.json")) {
+public static void main(String[] args)
+{
+    try {
+        FormatWriter csv = new ExportadorCSV("clientes.csv");
+        FormatWriter json = new ExportadorJSON("empleados.json");
         BDExport.export(csv, listaClientes());
         BDExport.export(json, listaEmpleados());
     } catch (IOException e) {
@@ -261,29 +274,39 @@ Esto lo pueden conseguir mediante la interfaz sugerida /Exportable:/
 public interface Exportable
 {
     /**
-     ,* Guarda los atributos de la instancia en un diccionario.
+     ,* Devuelve los atributos de la instancia en un diccionario.
      ,*
      ,* En esta versión simplificada, los valores siempre son
      ,* strings (ver clase Atributos).
      ,*/
-    void saveAtributos(Atributos attrs);
+    Atributos extraerAttributos();
 }
 #+END_SRC
 
 Así, se deberían modificar las clases [[src:parte2/Cliente.java][Cliente]] y [[src:parte2/Empleado.java][Empleado]] para que implementen
 esta interfaz.
 
-*** La clase /FormatWriter/ y sus subclases
+*** La clase /Exportador/ y sus subclases
 
-La clase abstracta /FormatWriter/ abstrae el concepto de serializar, en cualquier
+La clase abstracta /Exportador/ abstrae el concepto de serializar, en cualquier
 formato, los atributos de un objeto:
 
 #+BEGIN_SRC java
-public abstract class FormatWriter
+public abstract class Exportador
 {
-    public abstract void guardar(Atributos attrs);
+    public abstract void guardarCampos(Atributos attrs);
 }
 #+END_SRC
+
+De aquí se pueden derivar los exportadores para CSV y JSON.
+
+También se puede valorar introducir una clase abstracta intermedia,
+/ExportadorArchivo/, que contenga el código común para la apertura de archivos
+(usado por ambos exportadores).
+
+*Nota final*: =export()= ya contiene el código para exportar a CSV y JSON. No es
+necesario, por tanto, saber implementar estos formatos, pero se puede obtener
+una noción general consultando, por ejemplo, Wikipedia: [[https://es.wikipedia.org/wiki/CSV][CSV]], [[https://es.wikipedia.org/wiki/JSON#Ejemplo_de_JSON][JSON]].
 
 
 
