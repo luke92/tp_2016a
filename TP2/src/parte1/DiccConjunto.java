@@ -2,6 +2,10 @@ package parte1;
 
 public class DiccConjunto<K extends Comparable<K>, V> implements Diccionario<K, V>
 {
+	/**
+	 * Conjunto privado que DiccConjunto usa para almacenar sus parejas
+	 * (clave, significado).
+	 */
 	private Conjunto<TuplaDic<K, V>> elementos;
 
 	public DiccConjunto() {

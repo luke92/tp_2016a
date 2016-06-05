@@ -1,4 +1,6 @@
 #+TITLE: TP2: Clases genéricas y polimorfismo
+#+AUTHOR: Programación II
+#+DATE: Primer cuatrimestre 2016
 #+LANGUAGE: es
 #+OPTIONS: html-postamble:nil
 #+OPTIONS: ^:nil toc:nil H:3 num:2 timestamp:nil
@@ -17,14 +19,6 @@ proporciona como parte de la consigna.
 
 El proyecto de Eclipse se puede descargar desde [[gh:/releases][esta página]].
 
-  - *IMPORTANTE*: la configuración del proyecto incluye varios lineamientos,
-    incluyendo la guía de estilo a seguir.
-
-    Se debe, por tanto, /importar/ el proyecto proporcionado, y no meramente
-    copiar los archivos de código.
-
-A modo informativo, se detallan los objetivos del TP en el [[#objetivos]].
-
 #+TOC: headlines 1
 
 
@@ -34,28 +28,22 @@ A modo informativo, se detallan los objetivos del TP en el [[#objetivos]].
 :CUSTOM_ID: parte1
 :END:
 
-En esta parte se pide la implementación de las siguientes tres clases:
+En esta parte se pide implementar un diccionario conforme a una
+interfaz pre-determinada, empleando un TAD Conjunto como soporte.
 
-  1. /DiccConjunto:/ un diccionario sobre /Conjunto/.
+Como parte de la consigna se incluye:
 
-  2. /ABB:/ un árbol de búsqueda sobre la clase abstracta /ArbolBinario/.
+  - la definición de la [[#diccionario][interfaz /Diccionario/]].
+  - la implementación de la [[#conjunto][clase /Conjunto/]].
 
-  3. /TuplaDic:/ puente entre /Conjunto/ y /DiccConjunto/.
+Y se pide:
 
-Para ayudar con la implementación, se incluyen algunas clases de soporte.
+  - la implementación de la clases [[#dicc-conjunto][/DiccConjunto/ y /TuplaDic/]].
 
-#+TOC: headlines 2 local
+Se incluye también una [[#guia1][guía de implementación]].
 
-** Clases ya implementadas
 
-Como base para la implementación, la consigna incluye la definición de las
-siguientes clases e interfaces:
-
-  - interfaz /Diccionario/
-  - clase /Conjunto/
-  - clase /ArbolBinario/ (abstracta)
-
-*** La interfaz /Diccionario/
+** La interfaz /Diccionario/
 :PROPERTIES:
 :CUSTOM_ID: diccionario
 :END:
@@ -83,7 +71,7 @@ La documentación de cada método se incluye en el archivo [[src:parte1/Dicciona
 No se permite realizar ningún cambio a esta interfaz.
 
 
-*** La clase /Conjunto/
+** La clase /Conjunto/
 :PROPERTIES:
 :CUSTOM_ID: conjunto
 :END:
@@ -114,57 +102,13 @@ alteraciones, ni agregar métodos adicionales. En particular, nótese que, de
 manera intencional, este Conjunto no proporciona el método /tamaño()/.
 
 
-*** La clase abstracta /ArbolBinario/
-:PROPERTIES:
-:CUSTOM_ID: arbol-binario
-:END:
-
-La clase abstracta /ArbolBinario/ define un árbol binario genérico que delega a
-las clases hijas (concretas) las operaciones de inserción, búsqueda y borrado.
-
-La delegación se realiza mediante sobrecarga. Por ejemplo, para la búsqueda:
-
-#+BEGIN_SRC java
-abstract class ArbolBinario<K, V> implements Diccionario<K, V>
-{
-    private Nodo raiz;
-
-    //
-    // Métodos implementados por ArbolBinarioB.
-    //
-    @Override
-    public V obtener(K k) {
-        return obtener(raiz, k);
-    }
-
-    @Override
-    public boolean pertenece(K k) {
-        return pertenece(raiz, k);
-    }
-
-    //
-    // Métodos sobrecargados que implementarán las clases hijas.
-    //
-    protected abstract V obtener(Nodo padre, K k);
-
-    protected abstract boolean pertenece(Nodo padre, K k);
-}
-#+END_SRC
-
-Como se puede observar también, la clase /ArbolBinario/ implementa directamente
-la interfaz /Diccionario/, por lo que tiene los mismos dos tipos paramétricos que
-este.
-
-
-** Clases a implementar
-
-*** /DiccConjunto/ y /TuplaDic/
+** /DiccConjunto/ y /TuplaDic/
 :PROPERTIES:
 :CUSTOM_ID: dicc-conjunto
 :END:
 
-La clase /DiccConjunto/ debe implementar la interfaz /[[#diccionario][Diccionario]]/ sobre el TAD
-/Conjunto/.
+La clase /DiccConjunto/ debe implementar la interfaz /Diccionario/
+sobre el TAD /Conjunto/.
 
 Como el número de tipos paramétricos difiere entre estas dos clases, será
 necesario usar un TAD intermedio que actúe como puente entre /Conjunto<T>/ y
@@ -174,9 +118,6 @@ Se recomienda usar /TuplaDic<K, V>/ como TAD intermedio. Es una tupla de dos
 elementos en la que la comparación se realiza solamente por el primero de ellos
 (en este caso la clave).
 
-Importante: para que funcione, el /compareTo()/ de la tupla debe ser consistente
-con /equals()/.
-
 Archivos a completar:
 
   - [[src:parte1/TuplaDic.java][TuplaDic.java]]: implementar =toString()=, =equals()= y =compareTo()=.
@@ -184,96 +125,41 @@ Archivos a completar:
   - [[src:parte1/DiccConjunto.java][DiccConjunto.java]]: implementar =guardar()=, =obtener()=, =pertenece()= =tamaño()= y
     =eliminar()=.
 
-*** /ABB/
+*** Guía de implementación
 :PROPERTIES:
-:CUSTOM_ID: abb
+:CUSTOM_ID: guia1
 :END:
 
-La clase /ABB/ implementa un árbol de búsqueda binario heredando de la clase
-abstracta /ArbolBinario/. Esto significa que:
+1. La idea es emplear un conjunto cuyos elementos sean tuplas
+   =(clave, significado)=. Es decir, instanciar *dentro de
+   DiccConjunto* un conjunto cuyo tipo paramétrico sea /TuplaDic<K,
+   V>/. Así:
 
-  - /ABB/ solo necesita implementar los cuatro métodos “abstract” de
-    /ArbolBinario:/ =guardar()=, =obtener()=, =pertenece()= y =eliminar()=.
+   #+BEGIN_SRC java
+   /**
+    ,* Conjunto privado que DiccConjunto usa para almacenar
+    ,* sus parejas (clave, significado).
+    ,*/
+   private Conjunto<TuplaDic<K, V>> elementos;
+   #+END_SRC
 
-  - como /ArbolBinario/ ya implementa la interfaz /Diccionario/, no se necesita
-    código especial para que /ABB/ la implemente.
+2. Para que esto funcione, el /equals()/ y /compareTo()/ de la tupla
+   deben fijarse solamente en el primer elemento (la clave). Así,
+   se puede realizar una búsqueda dentro del conjunto con una
+   tupla =(clave, null)=.
 
-  - los métodos que funcionarían para cualquier árbole binario (no solo de
-    búsqueda) se pueden implementar en la clase base. Por ejemplo, /ArbolBinario/
-    ya implementa =tamaño()=, y no es necesario sobreescribirlo.
+3. Como no hay /Conjunto.tamaño()/, /DiccConjunto/ deberá llevar la
+   cuenta de su número de elementos. Para ello, necesitará una
+   variable de instancia /numElementos/ que será incrementada en
+   /guardar()/ y decrementada en /eliminar()/.
 
-A su vez, en este caso la clase base acota bastante cómo debe ser la
-implementación de la clase hija. En particular:
+   Puede ocurrir, no obstante que un elemento a guardar ya exista,
+   y por tanto simplemente se reemplace; en ese caso no se debe
+   incrementar /numElementos/. Algo similar ocurre con /eliminar()/ y
+   elementos que no existen.
 
-  - el diseño de la recursión lo define /ArbolBinario:/ en lugar de usar métodos
-    en /Nodo/, llama a métodos sobrecargados de la clase hija con la raíz como
-    argumento (como se mostró en la [[#arbol-binario][sección anterior]]).
-
-  - las clases hijas pueden acceder a los campos de /Nodo/, pero no tienen acceso
-    a “re-escribir” la raíz del árbol (=ArbolBinario.raiz= es /private/).
-
-  - lo que espera la clase base es que los métodos sobrecargados /devuelvan/ la
-    nueva raíz, que será la original de no haberse producido cambios. Por
-    ejemplo, para el borrado:
-
-    #+BEGIN_SRC java
-    abstract class ArbolBinario<K, V>
-    {
-        public void guardar(K clave, V valor) {
-            // Se sobreescribe la raíz con lo que devuelva la clase hija.
-            // Si, por ejemplo, el árbol estaba vacío, la clase hija devuelve
-            // directamente el nodo nuevo.
-            raiz = guardar(raiz, new Nodo(clave, valor));
-        }
-
-        public void eliminar(K clave) {
-            // Se sobreescribe la raíz con lo que devuelva la clase hija.
-            // Si, por ejemplo, solo existe la raíz y hay que borrarla, la
-            // clase hija devolvería "null".
-            raiz = eliminar(raiz, clave);
-        }
-    }
-
-    public class ABB<K, V> extends ArbolBinario<K, V>
-    {
-        protected Nodo guardar(Nodo p, Nodo nuevo) {
-            if (p == null) {
-                // La raíz es null o hemos llegado a una hoja.
-                // En este punto se inserta el nodo, devolviéndolo.
-                return nuevo;
-            }
-
-            // Seguir buscando
-            // ...
-        }
-
-        protected Nodo eliminar(Nodo p, K clave) {
-            if (p == null) {
-                // La raíz es null o hemos llegado a una hoja.
-                // No hay nada que borrar y se devuelve null.
-                return null;
-            }
-            else if (/* p.clave == clave */) {
-
-                // Si solo hay un hijo, devolver ese hijo.
-                if (p.izq == null)
-                    return p.der;
-                else if (p.der == null)
-                    return p.izq;
-
-                // Caso difícil: el nodo tiene dos hijos.
-                // ...
-            }
-            else
-                // Seguir buscando
-                // ...
-    }
-    #+END_SRC
-
-** Pruebas automáticas
-
-Se incluye, en el paquete =parte1.pruebas=, una serie de pruebas automáticas con
-las que ambas implementaciones de /Diccionario/ deben cumplir.
+   Ambos casos se pueden solucionar usando /pertenece()/ antes de
+   modificar el valor de /numElementos/.
 
 * Parte 2: Polimorfismo y desacoplamiento
 :PROPERTIES:
@@ -395,40 +281,3 @@ public abstract class FormatWriter
 
 
 
-* Apéndice A: Resumen de objetivos
-:PROPERTIES:
-:UNNUMBERED: t
-:CUSTOM_ID: objetivos
-:END:
-
-** Parte 1
-
-  1. El uso de interfaces como definición completa de un tipo abstracto de
-     datos.
-
-     - En nuestro caso, el TAD-interfaz [[#diccionario][Diccionario]].
-
-  2. La implementación de un mismo TAD-interfaz por dos clases no relacionadas
-     por herencia.
-
-     - En nuestro caso, las clases [[#abb][ABB]] y [[#dicc-conjunto][DiccConjunto]].
-
-  3. La implementación de un TAD sobre otro TAD, resolviendo cualquier
-     impedancia entre ellos.
-
-     - En nuestro caso, /DiccConjunto<K, V>/ sobre [[#conjunto][Conjunto<T>]], con la ayuda de
-       [[#dicc-conjunto][TuplaDic]].
-
-  4. El uso de clases abstractas para diseñar las clases hijas.
-
-     - En nuestro caso, la clase /ArbolBinario/ define la clase /Nodo/ y mantiene
-       controlado (privado) el acceso a la raíz. Acota a cuatro métodos lo que
-       las clases derivadas deben implementar.
-
-  5. El uso de clases internas para evitar parametrizar clases auxiliares, y el
-     uso de visibilidad “default” para evitar la proliferación de getters y setters.
-
-     - En nuestro caso, no es necesario que la clase interna /ArbolBinario.Nodo/
-       sea paramétrica, pues queda instanciada con /K/ y /V/. Además, al ser
-       /protected/ pero tener sus variables visibilidad default, /clave/ y /valor/ no
-       quedan expuestos a otras clases, pero no son necesario getters/setters.
