@@ -2,6 +2,14 @@
 #+AUTHOR: Programación II
 #+DATE: Primer cuatrimestre 2016
 #+LANGUAGE: es
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setmainfont[Ligatures=TeX]{TeXGyrePagellaX}
+#+LATEX_HEADER: \setmonofont[Scale=0.9]{Consolas}
+#+LATEX_HEADER: \usepackage{fancyvrb}
+#+LATEX_HEADER: \DefineVerbatimEnvironment{verbatim}{Verbatim}{xleftmargin=2em}
+#+LATEX_HEADER: \usepackage[spanish]{babel}
+#+LATEX_HEADER: \usepackage[parfill]{parskip}
+#+LATEX_HEADER: \hypersetup{colorlinks,linkcolor=red,urlcolor=blue}
 #+OPTIONS: html-postamble:nil
 #+OPTIONS: ^:nil toc:nil H:3 num:2 timestamp:nil
 #+HTML_DOCTYPE: html5
@@ -18,8 +26,6 @@ ZIP con el código Java, respetando la estructura del proyecto de Eclipse que se
 proporciona como parte de la consigna.
 
 El proyecto de Eclipse se puede descargar desde [[gh:/releases][esta página]].
-
-#+TOC: headlines 1
 
 
 * Parte 1: Estructuras de datos genéricas
